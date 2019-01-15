@@ -19,7 +19,7 @@ module.exports = (env) => {
     return {
         entry: /*'./src/playground/hoc.js',*/  './src/app.js',
         output: {
-            path: path.join(__dirname,'public'),
+            path: path.join(__dirname,'public','dist'),
             filename: 'bundle.js'
         },
         mode: 'development',
@@ -51,7 +51,8 @@ module.exports = (env) => {
         devServer: {
             contentBase: path.join(__dirname,'public'),
             historyApiFallback: true,
-            disableHostCheck: true
+            disableHostCheck: true,
+            publicPath: '/dist/'
         }
     };
     // replaced 'cheap-module-eval-source-map' with 'inline-source-map' to get more

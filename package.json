@@ -22,7 +22,8 @@
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "uuid": "^3.3.2",
-    "validator": "^10.10.0"
+    "validator": "^10.10.0",
+    "webpack": "^4.28.4"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
@@ -33,12 +34,12 @@
     "@babel/preset-stage-2": "^7.0.0",
     "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.5",
+    "chalk": "^2.4.2",
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.7.1",
     "enzyme-to-json": "^3.3.5",
     "jest": "^23.6.0",
     "react-test-renderer": "^16.7.0",
-    "webpack": "^4.28.4",
     "webpack-cli": "^3.2.1",
     "webpack-dev-server": "^3.1.14"
   },
@@ -46,6 +47,8 @@
     "build:dev": "webpack",
     "build:prod": "webpack -p --env production",
     "dev-server": "webpack-dev-server",
+    "heroku-postbuild": "npm run build:prod",
+    "start": "node server/sever.js",
     "test": "jest --config=jest.config.json"
   },
   "keywords": [],
