@@ -47,11 +47,13 @@ module.exports = (env) => {
             ]
         },
         plugins: [new MiniCssExtractPlugin({ filename: 'styles.css' })],
-        devtool: isProduction ? 'source-map' : 'cheap-module-eval-source-map',
+        devtool: isProduction ? 'source-map' : 'inline-source-map',
         devServer: {
             contentBase: path.join(__dirname,'public'),
             historyApiFallback: true,
             disableHostCheck: true
         }
     };
+    // replaced 'cheap-module-eval-source-map' with 'inline-source-map' to get more
+    // usefull source maps.
 };
