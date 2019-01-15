@@ -1,0 +1,58 @@
+
+> expensify2@1.0.0 build:prod D:\Dev\React-Course\expensify2
+> webpack -p --env production
+
+Hash: 1812be458915e4b4f806
+Version: webpack 4.28.4
+Time: 15738ms
+Built at: 2019-01-15 15:47:08
+         Asset      Size  Chunks                    Chunk Names
+     bundle.js   645 KiB       0  [emitted]  [big]  main
+ bundle.js.map  2.11 MiB       0  [emitted]         main
+    styles.css  16.2 KiB       0  [emitted]         main
+styles.css.map  32.2 KiB       0  [emitted]         main
+Entrypoint main [big] = styles.css bundle.js styles.css.map bundle.js.map
+ [24] (webpack)/buildin/global.js 472 bytes {0} [built]
+[222] ./node_modules/react-portal/es/index.js + 5 modules 11.3 KiB {0} [built]
+      |    6 modules
+[234] (webpack)/buildin/harmony-module.js 573 bytes {0} [built]
+[235] (webpack)/buildin/module.js 497 bytes {0} [built]
+[236] ./node_modules/moment/locale sync ^\.\/.*$ 2.93 KiB {0} [optional] [built]
+[294] ./src/styles/styles.scss 39 bytes {0} [built]
+[310] ./src/app.js + 57 modules 144 KiB {0} [built]
+      | ./src/app.js 684 bytes [built]
+      | ./src/selectors/expenses.js 1.12 KiB [built]
+      | ./src/actions/filters.js 736 bytes [built]
+      | ./src/actions/expenses.js 1.12 KiB [built]
+      | ./src/routers/AppRouter.js 1.07 KiB [built]
+      | ./src/store/configureStore.js 730 bytes [built]
+      | ./src/reducers/expenses.js 2.24 KiB [built]
+      | ./src/reducers/filters.js 1.83 KiB [built]
+      |     + 50 hidden modules
+    + 321 hidden modules
+
+WARNING in asset size limit: The following asset(s) exceed the recommended size limit (244 KiB).
+This can impact web performance.
+Assets: 
+  bundle.js (645 KiB)
+
+WARNING in entrypoint size limit: The following entrypoint(s) combined asset size exceeds the recommended limit (244 KiB). This can impact web performance.
+Entrypoints:
+  main (661 KiB)
+      styles.css
+      bundle.js
+
+
+WARNING in webpack performance recommendations: 
+You can limit the size of your bundles by using import() or require.ensure to lazy load some parts of your application.
+For more info visit https://webpack.js.org/guides/code-splitting/
+Child mini-css-extract-plugin node_modules/css-loader/dist/cjs.js??ref--5-1!node_modules/sass-loader/lib/loader.js??ref--5-2!node_modules/normalize.css/normalize.css:
+    Entrypoint mini-css-extract-plugin = *
+       2 modules
+Child mini-css-extract-plugin node_modules/css-loader/dist/cjs.js??ref--5-1!node_modules/sass-loader/lib/loader.js??ref--5-2!node_modules/react-dates/lib/css/_datepicker.css:
+    Entrypoint mini-css-extract-plugin = *
+       2 modules
+Child mini-css-extract-plugin node_modules/css-loader/dist/cjs.js??ref--5-1!node_modules/sass-loader/lib/loader.js??ref--5-2!src/styles/styles.scss:
+    Entrypoint mini-css-extract-plugin = *
+    [0] ./node_modules/css-loader/dist/cjs.js??ref--5-1!./node_modules/sass-loader/lib/loader.js??ref--5-2!./src/styles/styles.scss 1.09 KiB {0} [built]
+        + 1 hidden module

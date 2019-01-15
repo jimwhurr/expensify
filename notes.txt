@@ -1,0 +1,158 @@
+    
+    // <Link> directs to client side routing, <a> server side/user
+const NotFoundPage = () => (
+    <div>
+        404 - <Link to="/">Go to home</Link>
+    </div>
+);
+
+const Header = () => (
+    <header>
+        <h1>Expensify</h1>
+        <Link to="/">Dashboard</Link>
+        <Link to="/create">Create Expense</Link>
+        <Link to="/edit">Edit Expense</Link>
+        <Link to="/help">Help</Link>
+    </header>
+);
+
+const routes = (
+    <BrowserRouter>
+        <div>
+            <Header />
+            <Switch>
+                <Route path="/" component={ExpenseDashboardPage} exact={true} />
+                <Route path="/create" component={AddExpensePage} />
+                <Route path="/edit" component={EditExpensePage} />
+                <Route path="/help" component={HelpPage} />
+                <Route component={NotFoundPage} />
+            </Switch>
+        </div> 
+    </BrowserRouter>
+);
+
+BrowserRouter - creates a router and expects a single element as a child (can use any block
+tag to group, e.g. <div>, <Switch>). Note: by default triggers ALL matching routes (use Switch
+to use first match, as here)
+
+Header - is a user defined component, defined above.
+
+Switch - works a bit like a switch statement, it selects the first matching Route.
+
+Route - directs the rendering of components. Note: path is optional and can be used to catch
+undefined routes.
+
+Link - provides an 'internal' link that directs rendering to render the specified component,
+see Header example. (Note: using an <a> tag works but causes a page refresh!)
+
+
+Changing the header links to NavLink enables us to control the attributes of the active (and other,
+see docs) element...
+
+const Header = () => (
+    <header>
+        <h1>Expensify</h1>
+        <NavLink to="/" activeClassName="is-active" exact={true}>Dashboard</NavLink>
+        <NavLink to="/create" activeClassName="is-active">Create Expense</NavLink>
+        <NavLink to="/edit" activeClassName="is-active">Edit Expense</NavLink>
+        <NavLink to="/help" activeClassName="is-active">Help</NavLink>
+    </header>
+);
+
+Just like with the router we use exact to ensure that only one element is selected.
+
+{lots of stuff on components and redux, see commits}
+
+Redux Developer tools
+---------------------
+Google for ^^^ add 'extension' (should get https://github.com/zalmoxisus/redux-devtools-extension).
+Follow link for required c browser. Click 'Add to...' then make changes to code that are 
+indicated... (at time of writing)
+
+    const store = createStore(
+        reducer, /* preloadedState, */
+        +  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() << THIS LINE
+    );
+ This code is in store/configureStore.js 
+ 
+moment
+------
+Has useful functions such as startOf(day/week/month/year).
+
+JEST
+====
+By default looks for *.test.js
+
+Use something like:
+    npm test -- --watch
+
+to set the test suite running in watch mode (the first -- says pass whatt follows on to the target).
+
+REACT UI TESTING
+================
+
+use the module: 
+
+    npm install --save-dev react-test-renderer
+
+This module contains 2 different approaches to testing. Use 'shallow' to test static components,
+ones where nothing changes. The other is a full dom test for components that change rendering
+dynamically.
+
+We create a renderer, use (call) it to render our test component then look at what comes back
+(we can console.log(renderer.getRenderOutput())). BUT we don't assert directly against what
+comes back because of the complexity/amount of stuff. We use SNAPSHOTS to look at changes over time
+using the Jest method '.toMatchSnapshot(optionalString)'.
+
+Snapshots are sttored in the __snapshots__ directory. When we run a second ttime the output is compared
+to the existing snapshot and errors reported for any differences. It also lets the new state become
+the baseline if you press the u key.
+
+ENZYME (3)
+----------
+A renderer for react, more sophisticated than react-test-renderer.
+
+    npm install --save-dev enzyme enzyme-adapter-react-16 raf
+
+[note: created tests/setupTests.js to connect the enzyme adapter. Also created a config file
+to also setup running 'setupFiles[array]. This is done in the file jest.config.son, located
+in the project root folder. Also have to change the relevant script entry in package.json that
+runs jest to include '--config=jest.config.json']
+
+To use succesfully use enzyme with snapshots need to install 'enzyme-to-json'
+
+(had to upgrade Jest because the addition of snapshotSerializers in tthe config file did not
+seem to remove the need to import enzyme-to-json and call tJSON(wrapper) ratther than just wrapper).
+
+To get access to the unconnected (not dependentt upon the store) version of the functional components
+wee need to make them named exports AND leave thhe default export as it is.
+
+Mocking
+-------
+See commit 'e40e9e7fcba0682851ab8317a51926d0d2cf866e'.
+
+to get at harder to reach method calls to e.g. dispatch we can use the component's connect call it
+with the second argument (mapDispacthToProps) set (see AddExpense.test.js).
+
+
+PRODUCTION WEBPACK
+==================
+In package.json we have the "build" script which just runs webpack. Running it leads to
+a very large bundle size. We need to optimise this... by moving as much out into files 
+that optionally load.  (see: webpack.js.org/guides and follow to the 'production' page)
+
+Using the -p flag signals that the env should be set to 'production' and initiates a 
+number of optimisations. This gives some quick wins.
+
+
+Also can make changes to webpack.config.js... (see)
+
+
+
+
+
+
+
+
+
+
