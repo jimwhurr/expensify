@@ -82,7 +82,8 @@ describe('ExpenseForm', () => {
         const now = moment();
         const wrapper = shallow(<ExpenseForm />);
         // need to find a prop of SingleDatePicker, use: .prop(key)
-        wrapper.find('SingleDatePicker').prop('onDateChange')(now);
+        // babel-7, had to use find('withStyles(SingleDatePicker)') instead of find(SingleDatePicker')
+        wrapper.find('withStyles(SingleDatePicker)').prop('onDateChange')(now);
         expect(wrapper.state('createdAt')).toEqual(now);
     });
 
@@ -90,7 +91,8 @@ describe('ExpenseForm', () => {
         const focused = true;
         const wrapper = shallow(<ExpenseForm />);
         // need to find a prop of SingleDatePicker, use: .prop(key)
-        wrapper.find('SingleDatePicker').prop('onFocusChange')({ focused });
+        // babel-7, had to use find('withStyles(SingleDatePicker)') instead of find(SingleDatePicker')
+        wrapper.find('withStyles(SingleDatePicker)').prop('onFocusChange')({ focused });
         expect(wrapper.state('calendarFocused')).toBe(true);
     });
 

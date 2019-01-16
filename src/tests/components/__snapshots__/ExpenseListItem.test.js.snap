@@ -11,7 +11,7 @@ exports[`ExpenseListItemu should render expense list with given expenses 1`] = `
     </Link>
   </h3>
   <p>
-    £195.00
+    £1.95
     -
     1st January 1970
   </p>
