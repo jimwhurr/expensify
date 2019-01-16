@@ -163,7 +163,14 @@ heroku create (can add name if want, I just left empty and got a generated name)
 
 heroku will startup using 'npm start', so make sure thatt tthe script in package.json works!
 Also need to setup so that heroku runs webpack...
-    it looks (in package.json) for scripts: "heroku-postbuild"
+    it looks (in package.json) for scripts: "heroku-prebuild" and "heroku-postbuild"
+    we only use postbuild here> "heroku-postbuild": "npm run build:prod"
+
+git push (pushes to default remote 'origin' - github)
+git push heroku master (builds and launches app)
+
+
+
 
 
 
