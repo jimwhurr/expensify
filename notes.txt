@@ -148,8 +148,22 @@ number of optimisations. This gives some quick wins.
 Also can make changes to webpack.config.js... (see)
 
 
+github
+======
+Created repository - jimwhurr, jim.whurr@gmail.com, ESyy
+(press + in TRC and follow instructions. ssh key is on jimwh@alpha)
 
+heroku
+======
+Create app - jim.whurr@gmail.com, ESyy
 
+heroku login
+heroku create (can add name if want, I just left empty and got a generated name)
+=> https://infinite-hamlet-75171.herokuapp.com/ | https://git.heroku.com/infinite-hamlet-75171.git
+
+heroku will startup using 'npm start', so make sure thatt tthe script in package.json works!
+Also need to setup so that heroku runs webpack...
+    it looks (in package.json) for scripts: "heroku-postbuild"
 
 
 

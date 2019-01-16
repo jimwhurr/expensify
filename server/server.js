@@ -1,6 +1,7 @@
 const express = require('express');
 const app = new express();
 const path = require('path');
+const PORT = process.env.PORT || 3000;
 
 // setup to serve from the public folder
 const publicPath = path.join( __dirname, '..', 'public');
@@ -13,6 +14,6 @@ app.get('*', (req, res) => {
 })
 
 // set port and start
-app.listen(3000, () => {
+app.listen(PORT, () => {
     console.log('Server running');
 });
