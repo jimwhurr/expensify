@@ -148,12 +148,12 @@ number of optimisations. This gives some quick wins.
 Also can make changes to webpack.config.js... (see)
 
 
-github
+GITHUB
 ======
 Created repository - jimwhurr, jim.whurr@gmail.com, ESyy
 (press + in TRC and follow instructions. ssh key is on jimwh@alpha)
 
-heroku
+HEROKU
 ======
 Create app - jim.whurr@gmail.com, ESyy
 
@@ -169,6 +169,9 @@ Also need to setup so that heroku runs webpack...
 git push (pushes to default remote 'origin' - github)
 git push heroku master (builds and launches app)
 
+
+WORKFLOW
+========
 
 
 
