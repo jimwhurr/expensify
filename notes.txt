@@ -174,7 +174,26 @@ WORKFLOW
 ========
 
 
+FIREBASE
+========
 
+Google add stuff...
+
+    <script src="https://www.gstatic.com/firebasejs/5.7.3/firebase.js"></script>
+    <script>
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyAT4cHGT6trlwWjCa3lePSXC8dbrrsB454",
+        authDomain: "expensify-d53af.firebaseapp.com",
+        databaseURL: "https://expensify-d53af.firebaseio.com",
+        projectId: "expensify-d53af",
+        storageBucket: "expensify-d53af.appspot.com",
+        messagingSenderId: "839078409433"
+    };
+    firebase.initializeApp(config);
+    </script>
+
+    
 
 
 
