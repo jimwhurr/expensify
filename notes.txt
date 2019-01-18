@@ -264,3 +264,11 @@ There are other events that can be used with on/once, e.g. ...
 
     child_added, fires on first call for each item then only when a new one is added
     ...more (see docs)
+
+ACTIONS are a good place to put the code that interacts with firebase (or any other DB).
+
+
+Now, in order to test, we need to be able to:
+
+    - create a mock redux store. Use redux-mock-store
+    -
