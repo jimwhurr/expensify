@@ -193,11 +193,74 @@ Google add stuff...
     firebase.initializeApp(config);
     </script>
 
-firebase does not store arrays, it stores data under an objectt that is a
-number - the index of thhe element in the array! TThhis is not that useful...
-    
+// firebase does not store arrays, it stores data under an objectt that is a
+// number - the index of thhe element in the array! TThhis is not that useful.
+// to get around this we restructure our data. e.g. an array of notes
+// becomes...
+
+const firebaseNotes = {
+    notes: {
+        uniqueid1: {
+            title: 'first note',
+            body: 'some note'
+        },
+        uniqueid2: {
+            title: 'second note',
+            body: 'some other note'
+        }
+    }
+};
+
+// unique ids... push the data generates a unique id and rerurns an object with
+// the id in keyK, and its parent:!
+let id = database.ref('notes').push({
+    title: 'Blinds',
+    body: 'Phone blinds shop'
+});
+
+console.log('id: ', id.key);
+
+database.ref(`notes/${id.key}`).update({
+    body: 'Make an appointment to get a quote'
+});
 
 
+// Expenses 
+database.ref('expenses')
+    .once('value')
+    .then( (snapshot) => {
+        console.log(snapshot.val());
+    });
+// ^^^ returns our objects but not as an array, we need to process the data somehow
+// to get the array that we need for redux.
+
+// use forEach() to iterate over expenses and get 'child' snapshots.
+
+const displayValues = (snapshot) => {
+    const expenses = [];
+
+    snapshot.forEach( (childSnapshot) => {
+        expenses.push({
+            id: childSnapshot.key,
+            ...childSnapshot.val()
+        })
+    })
+
+    console.log(expenses);
+ };
+
+database.ref('expenses')
+    .on('value', displayValues);
 
 
+There are other events that can be used with on/once, e.g. ...
 
+    child_removed
+    child_changed
+
+        database.ref('expenses').on('child_changed', (snapshot) => {
+            console.log(snapshot.key, snapshot.val());
+        });
+
+    child_added, fires on first call for each item then only when a new one is added
+    ...more (see docs)
