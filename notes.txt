@@ -193,6 +193,8 @@ Google add stuff...
     firebase.initializeApp(config);
     </script>
 
+firebase does not store arrays, it stores data under an objectt that is a
+number - the index of thhe element in the array! TThhis is not that useful...
     
 
 

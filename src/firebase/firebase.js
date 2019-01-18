@@ -1,4 +1,5 @@
 import * as firebase from 'firebase';
+import expenses from '../tests/fixtures/expenses';
 
 const config = {
     apiKey: "AIzaSyAT4cHGT6trlwWjCa3lePSXC8dbrrsB454",
@@ -13,68 +14,50 @@ firebase.initializeApp(config);
 
 const database = firebase.database();
 
-// get and then be notified of changes (hence callback)
-database.ref().on('value', (snapshot) => {
-    const val = snapshot.val();
-    console.log(`${val.name} is a ${val.job.title} at ${val.job.company}`);
-}, (e) => {
-    console.log('fetch data error: ', e);
-});
+const ids = [];
 
-// unsubscribe by calling off() - no argument in off() - to cancel the callback.
-// a function argument in off() spoecies the callback to cancel, it must be the
-// same as the subcscbed function. NOTE: .on() returns tthe function!!!
+for(let i = 0; i < expenses.length; i++) {
+    const data = {
+        description: expenses[i].description,
+        note: expenses[i].note,
+        amount: expenses[i].amount,
+        createdAt: expenses[i].createdAt,
+    }
 
-// now change data to trigger tthe ^^^ callback
-setTimeout( () => {
-    database.ref().update({
-        age: 60
-    });
-}, 3500);
+    ids[i] = database.ref('expenses').push(data);
+}
 
-// database.ref()
-//     .once('value')
-//     .then( (snapshot) => {
-//         const val = snapshot.val();
-//         console.log('data: ', val);
-//     })
-//     .catch( (e) => {
-//         console.log('error: ', e);
-//     })
+for (let j = 0; j < ids.length; j++) {
+    console.log(`expenses[${j}].id: ${ids[j].key}`);
+}
 
-// database.ref().set({
-//     name: 'Jim Whurr',
-//     age: 62,
-//     stressLevel: 6,
-//     job: {
-//         title: 'Retired',
-//         company: 'ixBDIA'
-//     },
-//     location: {
-//         city: 'Leeds',
-//         country: 'UK'
+// firebase does not store arrays, it stores data under an objectt that is a
+// number - the index of thhe element in the array! TThhis is not that useful.
+// to get around this we restructure our data. e.g. an array of notes
+// becomes...
+
+// const firebaseNotes = {
+//     notes: {
+//         uniqueid1: {
+//             title: 'first note',
+//             body: 'some note'
+//         },
+//         uniqueid2: {
+//             title: 'second note',
+//             body: 'some other note'
+//         }
 //     }
-// }).then(() => {           // wait for promise (firebase does not return any thing)
-//     console.log('Data saved');
-// }).catch( (e) => {
-//     console.log('error: ', e);
+// };
+
+// unique ids... push the data generates a unique id and rerurns an object with
+// the id in keyK, and its parent:!
+// let id = database.ref('notes').push({
+//     title: 'Blinds',
+//     body: 'Phone blinds shop'
 // });
 
-// wipe isSingle
-// database.ref('isSingle').remove()
-//     .then( () => {
-//         console.log('data removed')
-//     })
-//     .catch( (e) => {
-//         console.log('error: ', e);
-//     })
+// console.log('id: ', id.key);
 
-// database.ref().update({
-//     job: 'Manager',
-//     'location/city': 'KUH'   // need to specify internal values giving a path
+// database.ref(`notes/${id.key}`).update({
+//     body: 'Make an appointment to get a quote'
 // });
-
-// database.ref().update({
-//     stressLevel: 9,
-//     'job/company': 'Teacher'
-// })
