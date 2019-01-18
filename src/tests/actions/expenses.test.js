@@ -2,6 +2,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { startAddExpense, addExpense, editExpense, removeExpense } from '../../actions/expenses.js';
 import expenses from '../fixtures/expenses';
+import database from '../../firebase/firebase';
 
 const createMockStore = configureMockStore([thunk]);
 
@@ -72,14 +73,53 @@ describe('addExpense', () => {
             amount: 7537,
             createdAt: 1000
         };
-        store.dispatch(startAddExpense(testData)).then( () => {
-            expect(1).toBe(2);
-            done();
-        })
 
+        store.dispatch(startAddExpense(testData)).then( () => {
+            const actions = store.getActions();         // mock-store metthod
+            expect(actions[0]).toEqual({
+                type: 'ADD_EXPENSE',
+                expense: {
+                    id: expect.any(String),
+                    ...testData
+                }
+            });
+
+            // now return another promise to enable chaining..
+            return database.ref(`expenses/${actions[0].expense.id}`).once('value');
+
+        }).then((snapshot) => {
+            expect(snapshot.val()).toEqual(testData);
+            done();
+        });
     });
 
-    test('should add expense with default values to database and redux store', () => {
+    test('should add expense with default values to database and redux store', (done) => {
+        const store = createMockStore({});
+        const expenseDefaults = {
+            description: '',
+            note: '',
+            amount: 0,
+            createdAt: 0
+        };
+
+        store.dispatch(startAddExpense( {} )).then( () => {
+            const actions = store.getActions();         // mock-store metthod
+            expect(actions[0]).toEqual({
+                type: 'ADD_EXPENSE',
+                expense: {
+                    id: expect.any(String),
+                    ...expenseDefaults
+                }
+            });
+
+            // now return another promise to enable chaining..
+            return database.ref(`expenses/${actions[0].expense.id}`).once('value');
+
+        }).then((snapshot) => {
+            expect(snapshot.val()).toEqual(expenseDefaults);
+            done();
+        });
+
 
     });
 
