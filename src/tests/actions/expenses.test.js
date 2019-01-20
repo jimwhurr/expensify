@@ -128,8 +128,6 @@ describe('addExpense', () => {
             expect(snapshot.val()).toEqual(expenseDefaults);
             done();
         });
-
-
     });
 
 });
