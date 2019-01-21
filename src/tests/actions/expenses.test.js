@@ -4,11 +4,11 @@ import {
     startAddExpense,
     addExpense,
     editExpense,
+    startEditExpense,
     removeExpense,
     setExpenses,
     startSetExpenses,
-    startRemoveExpense
-                        } from '../../actions/expenses.js';
+    startRemoveExpense } from '../../actions/expenses.js';
 import expenses from '../fixtures/expenses';
 import database from '../../firebase/firebase';
 
@@ -76,6 +76,27 @@ describe('editExpense', () => {
             type: 'EDIT_EXPENSE',
             id,
             updates: updates
+        });
+    });
+
+    test('should update the expense in the DB', (done) => {
+        const store = createMockStore({});
+        const id = expenses[0].id;
+        const updates = {
+            note: 'updated by test case'
+        };
+
+        store.dispatch(startEditExpense(id, updates)).then( () => {
+            const actions = store.getActions();
+            expect(actions[0]).toEqual({
+                type: 'EDIT_EXPENSE',
+                id,
+                updates
+            });
+            return database.ref(`expenses/${id}`).once('value');
+        }).then((snapshot) => {
+            expect(snapshot.val().note).toEqual(updates.note);
+            done();
         });
     });
 });
