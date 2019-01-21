@@ -1,6 +1,9 @@
 {
   "name": "expensify2",
   "version": "1.0.0",
+  "engines": {
+    "node": "10.15.0"
+  },
   "description": "This course introduces:\r git init    - initialise git repo\r git status  - display status of the project  \r git add     - add new/modified files to staging\r git commit  - create a commit from staged files\r git log     - list commits",
   "main": "webpack.config.js",
   "dependencies": {
