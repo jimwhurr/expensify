@@ -1,6 +1,6 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { startAddExpense, addExpense, editExpense, removeExpense } from '../../actions/expenses.js';
+import { startAddExpense, addExpense, editExpense, removeExpense, setExpenses } from '../../actions/expenses.js';
 import expenses from '../fixtures/expenses';
 import database from '../../firebase/firebase';
 
@@ -14,6 +14,17 @@ const createMockStore = configureMockStore([thunk]);
 //     console.log(`storageBucket: ${process.env.FIREBASE_STORAGE_BUCKET}`)
 //     console.log(`messagingSenderId: ${process.env.FIREBASE_MESSAGING_SENDER_ID}`)
 // };
+
+beforeEach( (done) => {
+
+    const expensesData = {};
+    expenses.forEach( ( { id, description, note, amount, createdAt } ) => {
+        expensesData[id] = {description, note, amount, createdAt};
+    });
+
+    database.ref('expenses').set(expensesData).then( () => done() );
+});
+
 
 describe('removeExpense', () => {
 
@@ -130,4 +141,11 @@ describe('addExpense', () => {
         });
     });
 
+    test('should setup set expenses action object with data', () => {
+        const action = setExpenses(expenses);
+        expect(action).toEqual({
+            type: 'SET_EXPENSES',
+            expenses
+        });
+    });
 });
