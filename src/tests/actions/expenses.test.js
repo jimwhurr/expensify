@@ -12,6 +12,8 @@ import {
 import expenses from '../fixtures/expenses';
 import database from '../../firebase/firebase';
 
+const uid = 'testuid';
+const defaultAuthState = { auth: { uid } };
 const createMockStore = configureMockStore([thunk]);
 
 // const envdata = () => {
@@ -30,7 +32,7 @@ beforeEach( (done) => {
         expensesData[id] = {description, note, amount, createdAt};
     });
 
-    database.ref('expenses').set(expensesData).then( () => done() );
+    database.ref(`users/${uid}/expenses`).set(expensesData).then( () => done() );
 });
 
 
@@ -43,7 +45,7 @@ describe('removeExpense', () => {
     });
 
     test('should remove an expense from the database and redux store', (done) => {
-        const store = createMockStore({});
+        const store = createMockStore( defaultAuthState );
         const id = expenses[1].id;
 
         store.dispatch(startRemoveExpense( { id } )).then( () => {
@@ -51,7 +53,7 @@ describe('removeExpense', () => {
             expect(actions[0]).toEqual({type: 'REMOVE_EXPENSE', id});
 
             // now return another promise to enable chaining..
-            return database.ref(`expenses/${id}`).once('value');
+            return database.ref(`users/${uid}/expenses/${id}`).once('value');
         }).then( (snapshot) => {
             expect(snapshot.val()).toBeFalsy();
             done();
@@ -80,7 +82,7 @@ describe('editExpense', () => {
     });
 
     test('should update the expense in the DB', (done) => {
-        const store = createMockStore({});
+        const store = createMockStore( defaultAuthState );
         const id = expenses[0].id;
         const updates = {
             note: 'updated by test case'
@@ -93,7 +95,7 @@ describe('editExpense', () => {
                 id,
                 updates
             });
-            return database.ref(`expenses/${id}`).once('value');
+            return database.ref(`users/${uid}/expenses/${id}`).once('value');
         }).then((snapshot) => {
             expect(snapshot.val().note).toEqual(updates.note);
             done();
@@ -131,7 +133,7 @@ describe('addExpense', () => {
     // });
 
     test('should add expense to database and redux store', (done) => {
-        const store = createMockStore({});
+        const store = createMockStore(defaultAuthState);
         const testData = {
             description: 'Plumber',
             note: 'get leaking tap fixed',
@@ -150,7 +152,7 @@ describe('addExpense', () => {
             });
 
             // now return another promise to enable chaining..
-            return database.ref(`expenses/${actions[0].expense.id}`).once('value');
+            return database.ref(`users/${uid}/expenses/${actions[0].expense.id}`).once('value');
 
         }).then((snapshot) => {
             expect(snapshot.val()).toEqual(testData);
@@ -159,7 +161,7 @@ describe('addExpense', () => {
     });
 
     test('should add expense with default values to database and redux store', (done) => {
-        const store = createMockStore({});
+        const store = createMockStore(defaultAuthState);
         const expenseDefaults = {
             description: '',
             note: '',
@@ -178,7 +180,7 @@ describe('addExpense', () => {
             });
 
             // now return another promise to enable chaining..
-            return database.ref(`expenses/${actions[0].expense.id}`).once('value');
+            return database.ref(`users/${uid}/expenses/${actions[0].expense.id}`).once('value');
 
         }).then((snapshot) => {
             expect(snapshot.val()).toEqual(expenseDefaults);
@@ -198,7 +200,7 @@ describe('setExpenses', () => {
     });
 
     test('should fetch expenses from firebase', (done) => {
-        const store = createMockStore({});      // mock store so we can test
+        const store = createMockStore(defaultAuthState);      // mock store so we can test
         store.dispatch(startSetExpenses())     // grab test data from DB
             .then( () => {
                 // now check we have asked for the test data
