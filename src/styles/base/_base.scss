@@ -1,10 +1,18 @@
+* {
+    box-sizing: border-box; // default is content box which adds on
+                            // padding, margin and border to any measure
+                            // we specify. border-box does not!
+}
+
 html {
     font-size: 62.5%;       // set 1rem to 10px
 }
 
 body {
+    color: $dark-grey;
     font-family: Helvetica, Arial, sans-serif;
     font-size: $m-size;
+    line-height: 1.6;
 }
 
 button {
